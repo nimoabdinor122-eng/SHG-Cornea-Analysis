@@ -11,7 +11,7 @@ This repo contains modifications made by Nimo Abdinor during the placement.
 ## Modifications
 - Removed forward channel binarisation — kept as continuous normalised images
 - Per-file patch extraction and saving to Google Drive
-- Fixed data leakage: replaced patch-level split with file-level split
+- Explored alternative data splitting strategy: replaced patch-level split with file-level split to reduce potential overlap between training     and test patches from the same z-slice
 - Train: cornea files + lenticule + SMILE 25mmHg | Val: SMILE 14mmHg | Test: SMILE 10mmHg
 - Changed loss from BCEWithLogitsLoss to MSELoss (image restoration)
 - Added torch.sigmoid() to model output before loss computation
