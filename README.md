@@ -24,3 +24,10 @@ Overfitting observed. Next step: add SSIM to loss function.
 U-Net with 5 encoder/decoder levels (64-128-256-512-1024 channels),
 DoubleConv blocks, InstanceNorm2d, Dropout 0.3, skip connections.
 Input/output: single-channel 256x256 patches.
+
+## Run 2 — SSIM+MSE Loss (alpha=0.2)
+Train loss: 0.0005 | Val loss: 0.12
+Result: model collapsed to predicting bright blobs — no fibre structure recovered.
+Val loss increasing after epoch 130 — overfitting.
+Conclusion: SSIM weight too high even at alpha=0.2. MSE-only baseline produces better visual results.
+Next: intensity drop-off analysis (signal attenuation with depth).
