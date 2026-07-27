@@ -52,7 +52,7 @@ Whole 1024×1024 slices are cut into 16 non-overlapping 256×256 patches. Intens
 A 5-level U-Net (encoder channels 64→128→256→512→1024) with double-convolution blocks, InstanceNorm, dropout, and skip connections. Input: a backward patch; output: the predicted forward patch. This model and the processing pipeline were originally developed by **Melissa Diana Martins** in her BEng project; my work modifies and builds on them (file-level split, intensity analysis, documentation).
 
 ### Data splitting (file-level)
-The train/validation/test split is done at the level of **whole stacks**, so every patch from one stack stays in a single split. This prevents leakage between structurally similar patches from the same tissue — a more conservative and honest evaluation than splitting patches at random. _(A teammate independently adopted the same stack-level strategy.)_
+The train/validation/test split is done at the level of **whole stacks**, so every patch from one stack stays in a single split. This prevents leakage between structurally similar patches from the same tissue — a more conservative and honest evaluation than splitting patches at random. 
 
 ---
 
