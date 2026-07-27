@@ -49,7 +49,7 @@ _(File names being tidied to a numbered order for clarity.)_
 Whole 1024×1024 slices are cut into 16 non-overlapping 256×256 patches. Intensities are normalised to [0, 1] using global 1st/99th-percentile scaling per channel (clipping outliers).
 
 ### Model
-A 5-level U-Net (encoder channels 64→128→256→512→1024) with double-convolution blocks, InstanceNorm, dropout, and skip connections. Input: a backward patch; output: the predicted forward patch. This model and the processing pipeline were originally developed by **Melissa [surname]** in her BEng project; my work modifies and builds on them (file-level split, intensity analysis, documentation).
+A 5-level U-Net (encoder channels 64→128→256→512→1024) with double-convolution blocks, InstanceNorm, dropout, and skip connections. Input: a backward patch; output: the predicted forward patch. This model and the processing pipeline were originally developed by **Melissa Diana Martins** in her BEng project; my work modifies and builds on them (file-level split, intensity analysis, documentation).
 
 ### Data splitting (file-level)
 The train/validation/test split is done at the level of **whole stacks**, so every patch from one stack stays in a single split. This prevents leakage between structurally similar patches from the same tissue — a more conservative and honest evaluation than splitting patches at random. _(A teammate independently adopted the same stack-level strategy.)_
@@ -100,4 +100,4 @@ These are being **re-run on raw (un-normalised) intensities** to confirm the eff
 
 ## Acknowledgements
 
-The original U-Net image-restoration model and processing pipeline were developed by **Melissa [surname]** as part of her BEng project — this work builds directly on hers. Paired SHG imaging data collected by the research group. Supervised by Dr Abby Wilson (In2research placement, 2026).
+The original U-Net image-restoration model and processing pipeline were developed by **Melissa Diana Martins** as part of her BEng project — this work builds directly on hers. Paired SHG imaging data collected by the research group. Supervised by Dr Abby Wilson (In2research placement, 2026).
