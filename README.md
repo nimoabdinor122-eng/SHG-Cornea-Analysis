@@ -25,7 +25,7 @@ If a model can reconstruct the clean forward image from the clinical backward im
 |------|--------------|
 | `1_processing.ipynb` | Loads raw `.tif` stacks, extracts the backward/forward channels, cuts 256×256 patches, normalises. |
 | `2_training.ipynb` | U-Net training with a file-level train/val/test split; loss experiments. |
-| `3_intensity_analysis.ipynb` | Diagnostic: mean SHG intensity vs tissue depth (in progress). |
+| `3_intensity_analysis.ipynb` | 	Diagnostic: mean SHG intensity vs tissue depth (coming next — not in this version).|
 | `README.md` | This file. |
 
 _(File names being tidied to a numbered order for clarity.)_
