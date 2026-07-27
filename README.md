@@ -25,7 +25,7 @@ If a model can reconstruct the clean forward image from the clinical backward im
 |------|--------------|
 | `1_processing.ipynb` | Loads raw `.tif` stacks, extracts the backward/forward channels, cuts 256×256 patches, normalises. |
 | `2_training.ipynb` | U-Net training with a file-level train/val/test split; loss experiments. |
-| `3_intensity_analysis.ipynb` | 	Diagnostic: mean SHG intensity vs tissue depth (coming next — not in this version).|
+| `3_intensity_analysis.ipynb` | Diagnostic: mean SHG intensity vs tissue depth, on raw and normalised data.|
 | `README.md` | This file. |
 
 _(File names being tidied to a numbered order for clarity.)_
@@ -69,32 +69,35 @@ The train/validation/test split is done at the level of **whole stacks**, so eve
 
 ## Intensity–depth analysis (in progress)
 
-A separate diagnostic asking: how does SHG signal change with depth, and do the forward and backward channels behave the same way?
+A separate diagnostic asking: how does SHG signal change with depth, and do the forward and backward channels behave the same way? Run on both normalised and raw (un-normalised) intensities — the raw version is the physically faithful one, since percentile clipping can suppress genuine surface attenuation.
 
-Preliminary findings (on normalised data):
-- Cornea and lenticule stacks show **roughly flat** mean intensity with depth — no simple exponential attenuation.
-- The SMILE "around" scan shows a sharp **intensity minimum at the surgical plane**, present in *both* channels at the same depth — consistent with collagen disruption at the cut.
+Findings (confirmed on raw data):
 
-These are being **re-run on raw (un-normalised) intensities** to confirm the effect isn't an artefact of percentile clipping. Numbers may change; the qualitative features are expected to hold.
+-Signal drop at the SMILE surgical plane. The SMILE 25 mmHg "around" scan shows a sharp ~60% intensity minimum at 35 µm (the surgical plane), in both the forward (−61%) and backward (−58%) channels, with the minima perfectly aligned. Consistent with collagen disruption at the laser cut reducing SHG in both directions. The effect survives removal of normalisation, so it is a real tissue     feature.
+-No simple exponential attenuation. Cornea and lenticule stacks are broadly flat with depth (cornea varies only ~10–24%), confirmed on raw data — not a clipping artefact.
+-A correction worth noting. On normalised data the backward channel appeared to drop more than forward (83% vs 71%); on raw data the two are equal (~60%). The apparent difference was an artefact of the channels being normalised on different scales — caught by re-running on raw counts.
+
+Caveat: raw counts are not comparable across channels (different detector gain); only within-channel depth trends are meaningful.
 
 ---
 
 ## What I've learned
 
-- Verifying data *before* analysing it (channel assignment, frame size, z-intervals, NaN/dead/saturated screening) catches silent errors that would otherwise corrupt results.
-- Loss choice matters enormously: a perceptual loss (SSIM) that sounds better can fail badly under distribution shift.
-- Splitting strategy quietly determines whether evaluation is honest.
-- For scientific restoration, faithfulness matters as much as sharpness: a model that invents plausible-looking structure can be worse than a blurrier but honest one. This shapes the choice of loss and architecture.
+-Verifying data before analysing it (channel assignment, frame size, z-intervals, NaN/dead/saturated screening) catches silent errors that would otherwise corrupt results.
+-Re-checking a result on raw, un-processed data can overturn a conclusion: the apparent forward/backward difference at the SMILE plane vanished once normalisation was removed.
+-Loss choice matters enormously: a perceptual loss (SSIM) that sounds better can fail badly under distribution shift.
+Splitting strategy quietly determines whether evaluation is honest.
+-For scientific restoration, faithfulness matters as much as sharpness: a model that invents plausible-looking structure can be worse than a blurrier but honest one. This shapes the choice of loss and architecture.
 
 ---
 
 ## Next steps
 
-1. Finish the raw-intensity analysis; confirm the SMILE-plane dip and quantify it properly.
-2. Re-run training: MSE-only, file-level split, fully commented.
-3. Add a lightweight verification script (including a hash-based duplicate-patch check).
-4. Compare against the group's original baseline.
-5. Extend the dataset if more stacks become available.
+1.Re-run training: MSE-only, file-level split, fully commented.
+2.Add a lightweight verification script (including a hash-based duplicate-patch check).
+3.Compare against the original baseline.
+4.Extend the SMILE dip analysis to the other pressure scans if the data supports it.
+5.Extend the dataset if more stacks become available.
 
 ---
 
